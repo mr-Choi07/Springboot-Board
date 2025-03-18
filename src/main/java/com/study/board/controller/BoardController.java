@@ -35,15 +35,16 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception {
 
         boardService.write(board, file);
 
         model.addAttribute("message", "글 작성이 완료되었습니다.");
-        model.addAttribute("searchUrl", "/board/list");
+        model.addAttribute("searchUrl", "/board/list");  // searchUrl 값을 넘겨줌
 
-        return "message";
+        return "message";  // message.html로 리다이렉트
     }
+
 
     @GetMapping("/board/list")
     public String boardList(Model model,
@@ -98,4 +99,25 @@ public class BoardController {
         return "redirect:/board/list";
 
     }
+    
+    @GetMapping("/board/view/{id}")
+    public String boardView(@PathVariable("id") Integer id, Model model) {
+        Board board = boardService.boardView(id);
+        if (board != null) {
+            model.addAttribute("board", board);
+        } else {
+            model.addAttribute("message", "해당 게시글을 찾을 수 없습니다.");
+            model.addAttribute("searchUrl", "/board/list");
+        }
+        return "boardview";
+    }
+
+
+    @PostMapping("/board/delete/{id}")
+    public String boardDelete(@PathVariable("id") Integer id) {
+        boardService.delete(id);
+        return "redirect:/board/list";
+    }
+
+    
 }

@@ -6,18 +6,18 @@
 </head>
 
 <script th:inline="javascript">
-
     /*<![CDATA[*/
 
-    var message = [['${message}']];
-    alert(message);
+    // message와 searchUrl을 Thymeleaf에서 올바르게 처리
+    var message = /*[[${message}]]*/ 'default message';  // message 변수를 JavaScript로 전달
+    alert(message);  // 알림창에 메시지 표시
 
-    location.replace([['${searchUrl}']]);
+    var searchUrl = /*[[${searchUrl}]]*/ '/board/list';  // searchUrl을 JavaScript로 전달
+    location.replace(searchUrl);  // 해당 URL로 리다이렉트
 
     /*]]>*/
 </script>
 
 <body>
-
 </body>
 </html>

@@ -6,10 +6,23 @@
 </head>
 <body>
 <div th:replace="layout/header :: navbar"></div>
+
 <h1 th:text="${board.title}">제목입니다.</h1>
 <p th:text="${board.content}">내용이 들어갈 부분입니다.</p>
+
+<!-- 이미지가 있다면 표시 -->
+<div>
+    <img th:if="${board.filepath}" th:src="@{${board.filepath}}" alt="게시글 이미지" style="max-width:100%; height:auto;" />
+</div>
+
 <a th:href="@{${board.filepath}}">다운받기</a>
 <a th:href="@{/board/modify/{id}(id = ${board.id})}">수정</a>
+
+<!-- 삭제 버튼 추가 -->
+<form th:action="@{/board/delete/{id}(id=${board.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+    <button type="submit" class="btn btn-danger">삭제</button>
+</form>
+
 <div th:replace="~{layout/footer}"></div>
 </body>
 </html>

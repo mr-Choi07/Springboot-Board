@@ -28,13 +28,14 @@
     .button {
         border-radius: 5px;
     }
+    .form-control {
+        width: 500px;
+    }
+
 </style>
 <body>
     <div th:replace="layout/header :: navbar"></div>
     <div class="layout">
-        <form th:action="@{/board/write}" method="get">
-            <button type="submit" style="text-align: right;">작성</button>
-        </form>
         <table class="table table-hover table-striped" style="border: 1px solid;">
             <thead>
                 <tr>
@@ -58,10 +59,15 @@
                 <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
             </th:block>
         </div>
-        <form th:action="@{/board/list}" method="get" class="pagination justify-content-center">
-            <input type="text" name="searchKeyword">
-            <button type="submit">검색</button>
-        </form>
+        <div class="d-flex gap-2 justify-content-center">
+            <form th:action="@{/board/list}" method="get" class="d-flex">
+                <input class="form-control me-2" type="text" name="searchKeyword" placeholder="Search">
+                <button class="btn btn-primary rounded-pill px-3" type="submit">검색</button>
+            </form>
+            <form th:action="@{/board/write}" method="get">
+                <button class="btn btn-primary rounded-pill px-3" type="submit">작성</button>
+            </form>
+        </div>        
     </div>
     <div th:replace="~{layout/footer}"></div>
 </body>
