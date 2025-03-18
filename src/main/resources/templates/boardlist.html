@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/boardlist.css}">
+    <title>게시글 리스트 페이지</title>
+</head>
+<style>
+    a {
+    text-decoration: none;
+    color: black;
+    }
+    .table {
+        width: 1100px;
+        margin: 0% auto;
+    }
+    .pagination-container {
+        text-align: center; /* 가로 중앙 정렬 */
+    }
+
+    .pagination-container > a {
+        display: inline-block; /* inline-block으로 처리 */
+        padding: 5px 10px;
+        margin: 0 5px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .button {
+        border-radius: 5px;
+    }
+</style>
+<body>
+    <div th:replace="layout/header :: navbar"></div>
+    <div class="layout">
+        <form th:action="@{/board/write}" method="get">
+            <button type="submit" style="text-align: right;">작성</button>
+        </form>
+        <table class="table table-hover table-striped" style="border: 1px solid;">
+            <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>제목</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${list}">
+                    <td>
+                        <a th:text="${board.id}" th:href="@{/board/view(id=${board.id})}"></a>
+                    </td>
+                    <td>
+                        <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}"></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination-container mt-3 mb-3">
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+            </th:block>
+        </div>
+        <form th:action="@{/board/list}" method="get" class="pagination justify-content-center">
+            <input type="text" name="searchKeyword">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <div th:replace="~{layout/footer}"></div>
+</body>
+</html>
