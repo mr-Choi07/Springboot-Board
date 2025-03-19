@@ -15,7 +15,7 @@
     <img th:if="${board.filepath}" th:src="@{${board.filepath}}" alt="게시글 이미지" style="max-width:100%; height:auto;" />
 </div>
 
-<a th:href="@{${board.filepath}}">다운받기</a>
+<a th:href="@{${board.filpath}}">다운받기</a>
 <a th:href="@{/board/modify/{id}(id = ${board.id})}">수정</a>
 
 <!-- 삭제 버튼 추가 -->
