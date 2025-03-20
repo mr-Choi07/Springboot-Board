@@ -19,7 +19,7 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    // 파일 저장 및 경로 설정 수정
+    // 게시글 작성 (파일 저장 및 경로 설정)
     public void write(Board board, MultipartFile file) throws Exception {
         if (file != null && !file.isEmpty()) {
             try {
@@ -52,12 +52,12 @@ public class BoardService {
             System.out.println("⚠ 파일이 비어 있음");
         }
 
+        // 게시글 DB 저장
         boardRepository.save(board);
         System.out.println("✅ 게시글 저장 완료: " + board.getId());
     }
 
-
-    // 게시글 수정
+    // 게시글 수정 (파일 업데이트 처리 포함)
     @Transactional
     public void updateBoard(Integer id, Board board, MultipartFile file) throws Exception {
         Optional<Board> boardOptional = boardRepository.findById(id);
@@ -67,6 +67,7 @@ public class BoardService {
             boardTemp.setTitle(board.getTitle());
             boardTemp.setContent(board.getContent());
 
+            // 파일이 있을 때만 처리
             if (file != null && !file.isEmpty()) {
                 String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
                 UUID uuid = UUID.randomUUID();
@@ -79,16 +80,20 @@ public class BoardService {
                 boardTemp.setFilepath("/files/" + fileName);
             }
 
+            // 게시글 수정 저장
             boardRepository.save(boardTemp);
+            System.out.println("✅ 게시글 수정 완료: " + boardTemp.getId());
+        } else {
+            throw new RuntimeException("게시글을 찾을 수 없습니다.");
         }
     }
 
-    // 게시글 목록
+    // 게시글 목록 (페이징 처리)
     public Page<Board> boardList(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
-    // 검색 기능
+    // 게시글 제목 검색
     public Page<Board> boardSearchList(String searchKeyword, Pageable pageable) {
         return boardRepository.findByTitleContaining(searchKeyword, pageable);
     }
@@ -98,10 +103,32 @@ public class BoardService {
         return boardRepository.findById(id).orElse(null);
     }
 
+    // 게시글 삭제 (파일 삭제 포함 가능)
     public void delete(Integer id) {
-        boardRepository.deleteById(id);
+        Optional<Board> boardOptional = boardRepository.findById(id);
+        if (boardOptional.isPresent()) {
+            Board board = boardOptional.get();
+
+            // 파일 삭제 처리 (파일 경로가 존재하면 삭제)
+            String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
+            File file = new File(projectPath + board.getFilepath());
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("✅ 파일 삭제 완료: " + board.getFilepath());
+                } else {
+                    System.err.println("❌ 파일 삭제 실패: " + board.getFilepath());
+                }
+            }
+
+            // 게시글 삭제
+            boardRepository.deleteById(id);
+            System.out.println("✅ 게시글 삭제 완료: " + id);
+        } else {
+            throw new RuntimeException("게시글을 찾을 수 없습니다.");
+        }
     }
-    
+
+    // 콘텐츠 포맷팅 (줄 바꿈을 <br>로 변환)
     public String formatContent(String content) {
         return content.replace("\n", "<br>");
     }

@@ -59,7 +59,7 @@ public class BoardController {
         return "home";
     }
 
-    @GetMapping("/board/write") //localhost:8090/board/write
+    @GetMapping("/board/write") //localhost:8080/board/write
     public String boardWriteForm() {
         return "boardwrite";
     }
@@ -194,5 +194,18 @@ public class BoardController {
     public String history() {
         return "history";
     }
+    @GetMapping("/stipulation")
+    public String stipulation() {
+        return "stipulation";
+    }
+    @GetMapping("/member_input")
+    public String member_input() {
+        return "member_input";
+    }
+    @GetMapping("/login") 
+    public String login() {
+        return "login";
+    }
+    
     
 }
