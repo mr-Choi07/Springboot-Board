@@ -1,0 +1,35 @@
+/* reset */
+section { width: 100%;}
+li { display: inline-block; list-style: none; }
+
+/* 슬라이드 */
+.slideWrap { display: flex; position: relative; top: 0; left: 0; height: 200px; overflow: hidden;  }
+.slideWrap .imgSlide { display: flex; align-items: center; justify-content: space-between; padding-left: 0; }
+.slideWrap .imgSlide.original { animation: 30s linear 0s infinite normal forwards running slide01; }
+.slideWrap .imgSlide.clone { animation: 30s linear 0s infinite normal none running slide02; }
+.slideWrap .imgSlide li { width: 200px; height: 200px; line-height: 200px; margin-right: 5vw; text-align: center; }
+
+/** 애니메이션 **/
+/* 원본용 */
+@keyframes slide01 { 
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-100%); }
+    50.01% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+/* 복제용 */
+@keyframes slide02 { 
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-200%); }
+}
+
+.slideWrap .imgSlide li img {
+    margin-top: 8px;
+    object-fit: cover;
+    border-radius: 20px; /* 모서리를 둥글게 설정 (원하는 값으로 변경 가능) */
+}
+
+.h4 {
+    font-weight: bold;
+}

@@ -3,16 +3,19 @@
 <head th:replace="layout/header :: head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+</head>
+<head>
     <title>사이트</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}" type="text/css">
 </head>
 <body>
     <div th:replace="layout/header :: navbar"></div>
     <div class="container-fluid p-0">
         <div class="video-carousel-row">
             <!-- 비디오 섹션 -->
-            <div class="video-section position-relative">
-                <video autoplay muted loop class="w-100 h-80x object-fit-cover">
+            <div class="video-section position-relative" style="width: 1200px; margin: 0 auto;">
+                <video autoplay muted loop class="w-100 h-80x object-fit-cover" style="border-radius: 30px;">
                     <source src="https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/heroVisual/9b2e2582019300001.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

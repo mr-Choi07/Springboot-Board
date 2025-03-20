@@ -147,6 +147,12 @@ public class BoardController {
     public String boardView(@PathVariable("id") Integer id, Model model) {
         Board board = boardService.boardView(id);
         if (board != null) {
+            String content = board.getContent();
+            if (content != null) {
+                // board가 아닌 content에 replace 메서드를 사용해야 합니다
+                content = content.replace("\u200B", "");
+                board.setContent(content);
+            }
             model.addAttribute("board", board);
         } else {
             model.addAttribute("message", "해당 게시글을 찾을 수 없습니다.");
@@ -179,4 +185,14 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @GetMapping("/introduce")
+    public String introduce() {
+        return "introduce";
+    }
+    @GetMapping("/history")
+    public String history() {
+        return "history";
+    }
+    
 }

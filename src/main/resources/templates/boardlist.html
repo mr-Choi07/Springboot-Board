@@ -2,16 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/header :: head">
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/boardlist.css}">
+</head>
+<head>
+    <link rel="stylesheet" th:href="@{/css/boardlist.css}" type="text/css">
     <title>게시글 리스트 페이지</title>
 </head>
 <style>
-
 </style>
 <body>
     <div th:replace="layout/header :: navbar"></div>
-    <div class="layout">
-        <table class="table table-hover table-striped" style="border: 1px solid;">
+    <h1 style="text-align: center; font-size: 35px;">게시판</h1>
+    <div class="layout mt-3">
+        <table class="table table-hover table-striped mt-3" style="border: 1px solid;">
             <thead>
                 <tr>
                     <th>글번호</th>

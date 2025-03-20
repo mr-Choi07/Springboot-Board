@@ -101,5 +101,8 @@ public class BoardService {
     public void delete(Integer id) {
         boardRepository.deleteById(id);
     }
-
+    
+    public String formatContent(String content) {
+        return content.replace("\n", "<br>");
+    }
 }
